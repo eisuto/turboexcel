@@ -8,3 +8,4 @@ TurboExcel is a memory-optimized Java framework that enables efficient import an
 - [ ] 导出
 - [ ] 一对多关系导入、导出
 - [ ] 图片导入、导出
+- [ ] 导入校验
