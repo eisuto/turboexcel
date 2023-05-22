@@ -1,5 +1,5 @@
 # TurboExcel
-TurboExcel is a memory-optimized Java framework that enables efficient import and export of large volumes of data.
+TurboExcel 是一个内存优化的 Java 框架，可以高效地导入和导出大量数据。
 
 ## Todo List
 - [x] 指定列索引导入
