@@ -26,5 +26,21 @@ public @interface ExcelSheet {
      *
      * @return
      */
-    int estRowSize() default ExcelConstant.ESTIMATE_SHEET_ROW_SIZE;
+    int estRowSize() default ExcelConstant.DEFAULT_SHEET_ESTIMATE_ROW_SIZE;
+
+
+    /**
+     * 标题行 索引
+     *
+     * @return
+     */
+    int titleRowIndex() default ExcelConstant.DEFAULT_SHEET_TITLE_ROW_INDEX;
+
+    /**
+     * 数据起始行 索引
+     *
+     * @return
+     */
+    int dataRowIndex() default ExcelConstant.DEFAULT_SHEET_DATA_ROW_INDEX;
+
 }

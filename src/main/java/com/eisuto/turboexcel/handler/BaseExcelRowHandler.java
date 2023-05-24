@@ -1,15 +1,11 @@
 package com.eisuto.turboexcel.handler;
 
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.CharUtil;
 import com.eisuto.turboexcel.annotation.ExcelCol;
 import com.eisuto.turboexcel.model.ExcelColOption;
 import com.eisuto.turboexcel.model.ExcelSheetOption;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +24,7 @@ public class BaseExcelRowHandler<T> implements ExcelRowHandler {
     /**
      * 字段缓存信息
      */
-    private Map<Field, ExcelCol> fieldCacheMap;
+    private Map<Field, ExcelCol> fieldToColMap;
 
 
     /**
@@ -39,7 +35,12 @@ public class BaseExcelRowHandler<T> implements ExcelRowHandler {
     /**
      * 列选项
      */
-    private Map<Integer, ExcelColOption> colOptionMap;
+    private Map<String, ExcelColOption> colNameToOptionMap;
+
+    /**
+     * sheet 选项
+     */
+    private ExcelSheetOption sheetOption;
 
     /**
      * 成功数据
@@ -56,17 +57,20 @@ public class BaseExcelRowHandler<T> implements ExcelRowHandler {
      */
     public static <T> BaseExcelRowHandler<T> valueOfOption(ExcelSheetOption sheetOption, Class<T> clazz) {
         BaseExcelRowHandler<T> handler = new BaseExcelRowHandler<>();
-        handler.setFieldCacheMap(new HashMap<>(clazz.getFields().length));
+        handler.setFieldToColMap(new HashMap<>(clazz.getFields().length));
         handler.setClazz(clazz);
         handler.setSuccessList(new ArrayList<>(sheetOption.getEstRowSize()));
-        handler.setColOptionMap(ExcelColOption.valueOfClass(clazz).stream().collect(Collectors.toMap(ExcelColOption::getIndex, e -> e)));
+        handler.setSheetOption(sheetOption);
+        handler.setColNameToOptionMap(ExcelColOption.valueOfClass(clazz)
+                .stream().collect(Collectors.toMap(ExcelColOption::getName, e -> e)));
+
         // 字段缓存
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             if (field.isAnnotationPresent(ExcelCol.class)) {
                 ExcelCol excelCol = field.getDeclaredAnnotation(ExcelCol.class);
                 field.setAccessible(true);
-                handler.getFieldCacheMap().put(field, excelCol);
+                handler.getFieldToColMap().put(field, excelCol);
             }
         }
         return handler;
@@ -81,12 +85,22 @@ public class BaseExcelRowHandler<T> implements ExcelRowHandler {
      */
     @Override
     public void handle(int sheetIndex, long rowIndex, List<Object> colValues) {
+        // 跳过标题行之前的数据
+        if (rowIndex < this.sheetOption.getTitleRowIndex()) {
+            return;
+        }
+        // 标题行处理
+        else if (rowIndex == this.sheetOption.getTitleRowIndex()) {
+            titleRowHandler(colValues);
+            return;
+        }
         try {
             T data = clazz.newInstance();
-            for (Map.Entry<Field, ExcelCol> entry : this.getFieldCacheMap().entrySet()) {
+            for (Map.Entry<Field, ExcelCol> entry : this.getFieldToColMap().entrySet()) {
                 Field field = entry.getKey();
                 ExcelCol excelCol = entry.getValue();
-                field.set(data, String.valueOf(colValues.get(excelCol.index())));
+                int colIndex = colNameToOptionMap.get(excelCol.name()).getIndex();
+                field.set(data, String.valueOf(colValues.get(colIndex)));
             }
             successList.add(data);
         } catch (Exception e) {
@@ -95,4 +109,15 @@ public class BaseExcelRowHandler<T> implements ExcelRowHandler {
 
     }
 
+
+    /**
+     * 标题行处理
+     * 匹配列选项（colNameToOptionMap）中每个name对应的col索引
+     */
+    @Override
+    public void titleRowHandler(List<Object> colValues) {
+        colNameToOptionMap.forEach((name, option) -> {
+            option.setIndex(colValues.indexOf(name));
+        });
+    }
 }

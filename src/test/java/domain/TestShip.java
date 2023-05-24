@@ -6,12 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
-
 /**
  * @author eisuto
  */
-@ExcelSheet
+@ExcelSheet(titleRowIndex = 0, dataRowIndex = 1)
 @Data
 @ToString
 @NoArgsConstructor
@@ -19,26 +17,26 @@ public class TestShip {
     /**
      * id
      */
-    @ExcelCol(index = 0)
+    @ExcelCol(name = "编号")
     private String id;
 
     /**
      * 名称
      */
-    @ExcelCol(index = 1)
+    @ExcelCol(name = "名称")
     private String name;
 
 
     /**
      * 吨位
      */
-    @ExcelCol(index = 2)
+    @ExcelCol(name = "吨位")
     private String tonnage;
 
     /**
      * 下水日期
      */
-    @ExcelCol(index = 3)
+    @ExcelCol(name = "下水日期")
     private String launchDate;
 
 

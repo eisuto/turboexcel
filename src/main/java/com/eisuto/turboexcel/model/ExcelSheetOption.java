@@ -3,7 +3,6 @@ package com.eisuto.turboexcel.model;
 import com.eisuto.turboexcel.annotation.ExcelSheet;
 import com.eisuto.turboexcel.constant.ExcelConstant;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.lang.annotation.Annotation;
 
@@ -24,9 +23,19 @@ public class ExcelSheetOption {
      */
     private int estRowSize;
 
+    /**
+     * 标题行索引
+     */
+    private int titleRowIndex;
+
+    /**
+     * 数据起始行索引
+     */
+    private int dataRowIndex;
+
     public ExcelSheetOption() {
         this.index = ExcelConstant.DEFAULT_SHEET_START_INDEX;
-        this.estRowSize = ExcelConstant.ESTIMATE_SHEET_ROW_SIZE;
+        this.estRowSize = ExcelConstant.DEFAULT_SHEET_ESTIMATE_ROW_SIZE;
     }
 
     /**
@@ -43,6 +52,8 @@ public class ExcelSheetOption {
                 ExcelSheet sheetAnno = (ExcelSheet) annotation;
                 option.setEstRowSize(sheetAnno.estRowSize());
                 option.setIndex(sheetAnno.index());
+                option.setTitleRowIndex(sheetAnno.titleRowIndex());
+                option.setDataRowIndex(sheetAnno.dataRowIndex());
             }
         }
         return option;

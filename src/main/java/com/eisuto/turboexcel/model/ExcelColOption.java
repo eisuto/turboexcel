@@ -37,7 +37,7 @@ public class ExcelColOption {
         List<ExcelColOption> options = new ArrayList<>();
 
         // 根据类属性反射建立 name -> index 的关系
-        for (Field field : clazz.getFields()) {
+        for (Field field : clazz.getDeclaredFields()) {
             Annotation[] annotations = field.getAnnotations();
             for (Annotation annotation : annotations) {
                 if (annotation instanceof ExcelCol) {
