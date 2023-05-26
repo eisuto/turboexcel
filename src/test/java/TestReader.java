@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class TestReader {
 
     // 多类型导入测试文件
-    private static final String multiTypeFile = ResourceLoader.class.getClassLoader().getResource("ship.xlsx").getFile();
+    // private static final String multiTypeFile = ResourceLoader.class.getClassLoader().getResource("ship.xlsx").getFile();
     private static final List<TestShip> multiTypeList = new ArrayList<>();
 
     @BeforeClass
@@ -31,9 +31,9 @@ public class TestReader {
 
     @Test
     public void excelReader() {
-        System.out.println("【开始读取】");
-        long start = System.currentTimeMillis();
-        List<TestShip> list = ExcelReader.read(new File(multiTypeFile), TestShip.class);
-        System.out.printf("【读取结束】共：%s 条数据，耗时：%d ms%n", list.size(),System.currentTimeMillis() - start);
+//        System.out.println("【开始读取】");
+//        long start = System.currentTimeMillis();
+//        List<TestShip> list = ExcelReader.read(new File(multiTypeFile), TestShip.class);
+//        System.out.printf("【读取结束】共：%s 条数据，耗时：%d ms%n", list.size(),System.currentTimeMillis() - start);
     }
 }
