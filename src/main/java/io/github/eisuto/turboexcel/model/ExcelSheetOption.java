@@ -1,7 +1,7 @@
-package com.eisuto.turboexcel.model;
+package io.github.eisuto.turboexcel.model;
 
-import com.eisuto.turboexcel.annotation.ExcelSheet;
-import com.eisuto.turboexcel.constant.ExcelConstant;
+import io.github.eisuto.turboexcel.annotation.ExcelSheet;
+import io.github.eisuto.turboexcel.constant.ExcelConstant;
 import lombok.Data;
 
 import java.lang.annotation.Annotation;

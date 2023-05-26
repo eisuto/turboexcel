@@ -1,4 +1,4 @@
-package com.eisuto.turboexcel.constant;
+package io.github.eisuto.turboexcel.constant;
 
 /**
  * @author eisuto

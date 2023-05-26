@@ -1,6 +1,6 @@
-package com.eisuto.turboexcel.annotation;
+package io.github.eisuto.turboexcel.annotation;
 
-import com.eisuto.turboexcel.constant.ExcelConstant;
+import io.github.eisuto.turboexcel.constant.ExcelConstant;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

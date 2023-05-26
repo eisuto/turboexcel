@@ -1,7 +1,7 @@
 package domain;
 
-import com.eisuto.turboexcel.annotation.ExcelCol;
-import com.eisuto.turboexcel.annotation.ExcelSheet;
+import io.github.eisuto.turboexcel.annotation.ExcelCol;
+import io.github.eisuto.turboexcel.annotation.ExcelSheet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
